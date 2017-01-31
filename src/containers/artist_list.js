@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {fetchMusic} from '../actions/index';
 import AlbumInfo from '../components/album_info';
 
 class ArtistList extends Component {
+  componentWillMount(){
+    this.props.fetchMusic(this.props.params.artist);
+  }
+
   displayAlbums(origArtist, albumData){
     const id = albumData.id.toString();
     const artist = albumData.artists[0].name;
@@ -10,34 +15,34 @@ class ArtistList extends Component {
     const image = albumData.images[1].url;
     if(artist === origArtist){
       return(
-        <AlbumInfo key={id} artist={artist} title={title} image={image} />
+          <AlbumInfo key={id} artist={artist} title={title} image={image} />
       );
     }
-
   }
 
   render(){
-    const mus = this.props.music[0];
-    if(!mus){
+
+    const {music} = this.props;
+    if(!music){
       return(
-        <div></div>
+        <div>Loading...</div>
       );
     }
-    const origArtist=this.props.music[0].albums.items[0].artists[0].name;
-    ////////////////////////////////////////////////////
-    console.log(this.props.music);
+    const origArtist=music[0].artists[0].name;
     return(
-      <div>
-        <h2>{origArtist}</h2>
-        {this.props.music[0].albums.items.map(this.displayAlbums.bind(null, origArtist))}
+      <div id="album-list" className="text-center">
+        <h1>{origArtist}</h1>
+        <div className="row justify-content-center">
+          {music.map(this.displayAlbums.bind(null, origArtist))}
+        </div>
       </div>
+
     );
   }
-  //////////////////////////////////////////////////
 }
 
-function mapStateToProps({music}){
-  return {music};
+function mapStateToProps(state){
+  return {music: state.music.albums};
 }
 
-export default connect (mapStateToProps)(ArtistList);
+export default connect (mapStateToProps, {fetchMusic})(ArtistList);

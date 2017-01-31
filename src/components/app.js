@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import NavBar from '../components/navbar';
+import NavBar from './navbar';
 import SearchBar from '../containers/search_bar';
 import ArtistList from '../containers/artist_list';
 
@@ -8,10 +8,11 @@ import ArtistList from '../containers/artist_list';
 export default class App extends Component {
   render(){
     return(
-      <div>
+      <div id="app">
         <NavBar />
-        <SearchBar />
-        <ArtistList />
+        <div className="container">
+          {this.props.children}
+        </div>
       </div>
     );
   }

@@ -1,19 +1,21 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-export default(props) => {
-  const imgStyle ={
-    height: '100px',
-    width: '100px'
+export default class AlbumList extends Component{
+  render(){
+    var cardStyle = {
+      padding: 0,
+      margin: 5,
+    };
+
+    return(
+        <div key={this.props.key} className="card col-sm-3" style={cardStyle}>
+          <img className="card-img-top" src={this.props.image} alt="Card image cap" />
+          <div className="card-block">
+            <h4 className="card-title">{this.props.title} - {this.props.artist}</h4>
+            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          </div>
+        </div>
+
+    );
   }
-
-  return(
-    <div className="panel panel-default">
-      <div className="panel-heading">
-        <h4 className="panel-title">{props.title} - {props.artist}</h4>
-      </div>
-      <div className="panel-body">
-        <img src={props.image} style={imgStyle}/>
-      </div>
-    </div>
-  )
 }
